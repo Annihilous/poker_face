@@ -1,0 +1,139 @@
+<html>
+<head>
+  <title>Poker Face</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+
+<h1 id="title">Text</h1>
+
+<h3>Player Hand:</h3>
+<p id="player_hand"></p>
+
+<h3>Dealer Hand</h3>
+<p id="dealer_hand"></p>
+
+
+<script type="text/javascript">
+
+  var deck        = [ 
+                    "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12", "H13", "H14",
+                    "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10", "D11", "D12", "D13", "D14",
+                    "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14",
+                    "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10", "C11", "C12", "C13", "C14"
+                    ],
+
+      dealer_hand = [],
+      player_hand = [];
+
+
+  function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
+  function giveCard(hand, shuffled_deck) {
+    var card = shuffled_deck.shift(0);
+    hand.push(card);
+    console.log(card);
+  }
+
+  function deal(){
+    var shuffled_deck = shuffle(deck);
+
+    for(var i = 0; i < 5; i++) {
+      giveCard(player_hand, shuffled_deck);
+      giveCard(dealer_hand, shuffled_deck);
+    }
+
+    deck = shuffled_deck;
+
+    displayHand();
+
+  }
+
+  function draw(){
+
+  }
+
+  function score(hand){
+ 
+  }
+
+  function handValues(hand){
+    var handValues = [];
+
+    $.each(hand, function(index, value) {
+      handValues.push(cardValue(value));
+    });
+
+    console.log(array_values(handValues));
+  }
+
+  function cardValue(card){
+    var numb = card[1] + card[2];
+    return parseInt(numb);
+  }
+
+  function cardSuit(card){
+    return card[0];
+  }
+
+  function displayHand() {
+    $.each(player_hand, function(index, value) {
+      var suit    = cardSuit(value),
+          numb    = cardValue(value);
+      $("#player_hand").append("<div class='card'>" + numb + " " + suit + "</div>");
+    });
+
+    $.each(dealer_hand, function(index, value) {
+      var suit    = cardSuit(value),
+          numb    = cardValue(value);
+      $("#dealer_hand").append("<div class='card'>" + numb + " " + suit + "</div>");
+    });
+
+  }
+
+  function array_values(input) {
+
+    var tmp_arr = [],
+      key = '';
+
+    if (input && typeof input === 'object' && input.change_key_case) { // Duck-type check for our own array()-created PHPJS_Array
+      return input.values();
+    }
+
+    for (key in input) {
+      tmp_arr[tmp_arr.length] = input[key];
+    }
+
+    return tmp_arr;
+  }
+
+ deal();
+
+ handValues(player_hand);
+
+
+
+
+
+</script>
+
+</body>
+
+</html>
